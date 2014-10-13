@@ -36,3 +36,9 @@
       (is (= @tries 2))
       (Thread/sleep 80)
       (is (= @tries 3)))))
+
+(deftest test-mass-attempts
+  (let [make-attempt (fn [x] (attempt #(do (Thread/sleep (rand-int 100)) x)))
+        test-values  (map (juxt identity make-attempt) (range 1000))]
+      (dorun test-values)
+      (is (every? (fn [[x y]] (= x @y)) test-values))))
