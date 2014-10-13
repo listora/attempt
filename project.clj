@@ -1,4 +1,4 @@
-(defproject listora/attempt "0.1.0-SNAPSHOT"
+(defproject listora/attempt "0.1.0"
   :description "Asynchronously evaluate functions with retries and fallback"
   :url "https://github.com/listora/attempt"
   :license {:name "Eclipse Public License"

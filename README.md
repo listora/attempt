@@ -10,7 +10,7 @@ retries and fallback values.
 Add the following dependency to your project.clj file:
 
 ```clojure
-[listora/attempt "0.1.0-SNAPSHOT"]
+[listora/attempt "0.1.0"]
 ```
 
 ## Usage
