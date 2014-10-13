@@ -61,10 +61,10 @@ is returned.
 2
 ```
 
-The [listora/again][] library contains functions for creating patterns
+The [listora/again][again] library contains functions for creating patterns
 of retry strategies compatible with `attempt`.
 
-[listora/again]: (https://github.com/listora/again)
+[again]: https://github.com/listora/again
 
 ## License
 
