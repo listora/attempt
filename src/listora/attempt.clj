@@ -1,5 +1,5 @@
 (ns listora.attempt
-  (:require [clojure.core.async :as a :refer [<! go go-loop thread]]))
+  (:require [clojure.core.async :as a :refer [<! >! go go-loop thread]]))
 
 (def channel
   (a/chan (a/buffer 1024)))
@@ -8,11 +8,14 @@
   (try {:return (thunk)}
        (catch Exception e {:error e})))
 
-(defn- process-attempt [{:keys [thunk return fallback]}]
+(defn- process-attempt [{:keys [thunk return fallback retries] :as attempt}]
   (go (let [result (<! (thread (run-thunk thunk)))]
         (if-let [ret (:return result)]
           (return ret)
-          (return (force fallback))))))
+          (if (seq retries)
+            (do (<! (a/timeout (first retries)))
+                (>! channel (assoc attempt :retries (rest retries))))
+            (return (force fallback)))))))
 
 (defn- run-attempts []
   (go-loop []
@@ -28,7 +31,7 @@
   (a/close! channel))
 
 (def default-options
-  {:fallback nil})
+  {:fallback nil, :retries []})
 
 (defn attempt [thunk & [{:as options}]]
   (startup-attempts)
