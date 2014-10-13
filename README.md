@@ -57,7 +57,7 @@ once more after 10 seconds. If all retries fail, the fallback result
 is returned.
 
 ```clojure
-@(attempt #(+ 1 1) {:retries [1000, 5000, 10000]})
+@(attempt #(+ 1 1) {:retries [1000 5000 10000]})
 2
 ```
 
