@@ -1,5 +1,7 @@
 # Attempt
 
+[![Build Status](https://travis-ci.org/listora/attempt.svg?branch=master)](https://travis-ci.org/listora/attempt)
+
 A Clojure library designed to evaluate functions asynchronously with
 retries and fallback values.
 
