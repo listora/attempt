@@ -12,7 +12,7 @@
   (go (let [result (<! (thread (run-thunk thunk)))]
         (if-let [ret (:return result)]
           (return ret)
-          (return fallback)))))
+          (return (force fallback))))))
 
 (defn- run-attempts []
   (go-loop []
