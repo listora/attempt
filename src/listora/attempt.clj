@@ -4,8 +4,9 @@
 (def channel
   (a/chan (a/buffer 1024)))
 
-(defn- process-attempt [{:keys [thunk]}]
-  (thread (thunk)))
+(defn- process-attempt [{:keys [thunk return]}]
+  (go (let [value (<! (thread (thunk)))]
+        (return value))))
 
 (defn- run-attempts []
   (go-loop []
@@ -22,4 +23,6 @@
 
 (defn attempt [thunk & [{:as options}]]
   (startup-attempts)
-  (a/put! channel {:thunk thunk}))
+  (let [return (promise)]
+    (a/put! channel {:thunk thunk, :return return})
+    return))
